@@ -1,22 +1,39 @@
 import client from "./connection.js"
+import { MongoConfig } from "./settings.js";
 
-client.connect(function(err,db){
-    
 
-    if(err){
-        throw err;
-    }
-    db.createCollection("employees",function(err,res){
-        if(err){
-            throw err;
+
+async function setupDatabase() {
+
+    try {
+
+        await client.connect();
+
+        console.log("access db server");
+        //set up db connection
+        const db = client.db(MongoConfig.dbName);
+
+        console.log("connected to db server");
+
+        try{
+            const result= await db.createCollection("employees");
+            console.log("Created collection successfully");
         }
+
+    catch(err){
+
+        console.log("Error accessing db", err);
+    }
+}
+    finally{
+        await client.close();
+        console.log("Connection closed");
+    }
     
-    console.log("collections are created!");
-
-    client.close();
+}
 
 
-});
 
-});
+setupDatabase();
+
 

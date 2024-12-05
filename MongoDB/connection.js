@@ -8,22 +8,5 @@ export default client;
   
 
 
-  async function main(){
-
-    try {
-        await client.connect();
-    
-        // await listDatabases(client);
-     
-    } catch (e) {
-        console.error(e);
-    }
-    finally{
-        await client.close();
-    }
-}
-
-
-main().catch(console.error);
 
 
